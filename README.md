@@ -1,15 +1,11 @@
-# Basic Sample Hardhat Project
+# NFT_MarketPlace
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+**NFT-MarketPlace based on smart-contracts and web3 🚀**
 
-Try running some of the following tasks:
+### You can run the project by the following commands
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+```bash
+yarn deploy scripts/<SCRIPT_NAME>
 ```
+
+_To configure the testnet and signers accounts in order to deploy the contracts go to -> `hardhat.config.js`_
