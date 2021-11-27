@@ -4,12 +4,13 @@ pragma solidity ^0.8.0;
 //Contracts
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "./CrazyPunksDNA.sol";
 //Libraries
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./Base64.sol";
+  
 
-
-contract Punks is ERC721("CrazyPunks", "NPKS"), ERC721Enumerable {
+contract Punks is ERC721("CrazyPunks", "NPKS"), ERC721Enumerable, CrazyPunksDNA {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenId;
 
