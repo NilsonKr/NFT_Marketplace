@@ -216,15 +216,15 @@ contract CrazyPunksDNA {
     return uint8((_dna % (1 * 10 ** (_discardRight + DNA_PIECE_SIZE))) / (1 * 10 ** _discardRight));
   }
 
-  function _getAccessoriesType(uint _dna) public view returns(string memory){
+  function getAccessoriesType(uint _dna) public view returns(string memory){
     return _accessoriesType[_getDnaPiece(_dna, 0) % _accessoriesType.length];
   } 
 
-  function _getClotheColor(uint _dna) public view returns(string memory){
+  function getClotheColor(uint _dna) public view returns(string memory){
     return _clotheColor[_getDnaPiece(_dna, 2) % _clotheColor.length];
   } 
 
-  function _getClotheType(uint _dna) public view returns(string memory){
+  function getClotheType(uint _dna) public view returns(string memory){
     return _clotheType[_getDnaPiece(_dna, 4) % _clotheType.length];
   } 
 

@@ -15,6 +15,7 @@ contract Punks is ERC721("CrazyPunks", "NPKS"), ERC721Enumerable, CrazyPunksDNA 
   Counters.Counter private _tokenId;
 
   uint public limitSupply; 
+  mapping (uint  => uint) tokenDNAList;
 
   constructor(uint _limitSupply){
     limitSupply = _limitSupply;
@@ -25,12 +26,63 @@ contract Punks is ERC721("CrazyPunks", "NPKS"), ERC721Enumerable, CrazyPunksDNA 
     require(currTokenId < 100, "No CrazyPunks Left, sory :( not sory :3");
 
     _safeMint(msg.sender, currTokenId);
+    tokenDNAList[currTokenId] = generatePseudoRandomDNA(currTokenId, msg.sender);
 
     _tokenId.increment();
   }
+
+  function _baseURI() internal pure override returns (string memory){
+    return "https://avataaars.io/";
+  }
+
+  function _paramsURI(uint _dna) private view returns (string memory){
+    string memory params;
+
+    { 
+      params = string(abi.encodePacked(
+        "?accessoriesType=",
+        getAccessoriesType(_dna),
+        "&clotheColor=",
+        getClotheColor(_dna),
+        "&clotheType=",
+        getClotheType(_dna),
+        "&eyeType=",
+        getEyeType(_dna),
+        "&eyebrowType=",
+        getEyeBrowType(_dna),
+        "&facialHairColor=",
+        getFacialHairColor(_dna),
+        "&facialHairType=",
+        getFacialHairType(_dna),
+        "&hairColor=",
+        getHairColor(_dna),
+        "&hatColor=",
+        getHatColor(_dna),
+        "&mouthType=",
+        getMouthType(_dna),
+        "&skinColor=",
+        getSkinColor(_dna),
+        "&graphicType=",
+        getGraphicType(_dna)
+      ));
+    }
+
+    return string(abi.encodePacked(params,"&topType=",getTopType(_dna)));
+  }
+
+  function getImageURI(uint _dna) public view returns (string memory){
+    string memory baseURI = _baseURI();
+    string memory params = _paramsURI(_dna);
+    
+    return string(abi.encodePacked(baseURI, params));
+  }
+
   //ERC721 Metadata
   function tokenURI(uint tokenId) public view override returns(string memory){
     require(_exists(tokenId), "ERC71 Metadata: URI query for nonexistent token");
+
+    uint tokenDNA = tokenDNAList[tokenId];
+    string memory imageURI = getImageURI(tokenDNA);
 
     //URI on-chain
     string memory jsonBase64 = Base64.encode(abi.encodePacked(
@@ -38,7 +90,7 @@ contract Punks is ERC721("CrazyPunks", "NPKS"), ERC721Enumerable, CrazyPunksDNA 
       tokenId, 
       '","description": "CrazyPunks are randomized Avataaars stored on chain in order to learn DApp development",'
       '"image":"',
-      "TODO: Add image",
+      imageURI,
       '"}'
     ));
 
