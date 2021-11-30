@@ -7,23 +7,25 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "./CrazyPunksDNA.sol";
 //Libraries
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 import "./Base64.sol";
   
 
-contract Punks is ERC721("CrazyPunks", "NPKS"), ERC721Enumerable, CrazyPunksDNA {
+contract CrazyPunks is ERC721("CrazyPunks", "NPKS"), ERC721Enumerable, CrazyPunksDNA {
   using Counters for Counters.Counter;
+  using Strings for uint;
   Counters.Counter private _tokenId;
 
-  uint public limitSupply; 
+  uint public maxSupply; 
   mapping (uint  => uint) tokenDNAList;
 
   constructor(uint _limitSupply){
-    limitSupply = _limitSupply;
+    maxSupply = _limitSupply;
   }
 
   function mintToken() public {
     uint currTokenId = _tokenId.current();
-    require(currTokenId < 100, "No CrazyPunks Left, sory :( not sory :3");
+    require(currTokenId < maxSupply, "No CrazyPunks Left, sory :( not sory :3");
 
     _safeMint(msg.sender, currTokenId);
     tokenDNAList[currTokenId] = generatePseudoRandomDNA(currTokenId, msg.sender);
@@ -87,7 +89,7 @@ contract Punks is ERC721("CrazyPunks", "NPKS"), ERC721Enumerable, CrazyPunksDNA 
     //URI on-chain
     string memory jsonBase64 = Base64.encode(abi.encodePacked(
       '{ "name": "CrazyPunk #',
-      tokenId, 
+      tokenId.toString(), 
       '","description": "CrazyPunks are randomized Avataaars stored on chain in order to learn DApp development",'
       '"image":"',
       imageURI,

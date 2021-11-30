@@ -1,12 +1,10 @@
-const { ethers } = require("ethers");
-
 async function deployPunks() {
   const [deployer] = await ethers.getSigners();
 
   console.log("Deploying Punks contract to : %s", deployer.address);
 
   const PunksContract = await ethers.getContractFactory("Punks");
-  const deployed = await PunksContract.deploy();
+  const deployed = await PunksContract.deploy(10000);
 
   console.log("Punks deployed to: %s", deployed.address);
 }

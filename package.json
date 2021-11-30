@@ -2,7 +2,8 @@
   "name": "NFT-marketplace",
   "packageManager": "yarn@3.0.0",
   "scripts": {
-    "deploy": "hardhat run"
+    "deploy": "hardhat run",
+    "test": "hardhat test"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
