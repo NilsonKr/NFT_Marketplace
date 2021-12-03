@@ -3,8 +3,8 @@ async function deployPunks() {
 
   console.log("Deploying Punks contract to : %s", deployer.address);
 
-  const PunksContract = await ethers.getContractFactory("Punks");
-  const deployed = await PunksContract.deploy(10000);
+  const PunksContract = await ethers.getContractFactory("CrazyPunks");
+  const deployed = await PunksContract.deploy(100);
 
   console.log("Punks deployed to: %s", deployed.address);
 }
